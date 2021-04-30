@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const UploadFile = () => {
-    const [fileSelected, setFileSelected] = React.useState<File>() // also tried <string | Blob>
+    const [fileSelected, setFileSelected] = useState<File>() // also tried <string | Blob>
 
     const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         const fileList = e.target.files;
@@ -24,7 +24,6 @@ const UploadFile = () => {
                     "Content-Type": "multipart/form-data"
                 }
             });
-
         }
     };
 
