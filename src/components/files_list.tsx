@@ -1,26 +1,26 @@
-import axios from "axios";
-import { useState } from "react";
 import React from "react";
+import { ul, url_color } from "./styles";
+import { Link } from "react-router-dom";
 
 export interface CsvFileType {
-    id: number,
-    file: File,
-    filename: string,
+    id: number;
+    filename: string;
 }
 
 const FilesList = (prop: { filesList: Array<CsvFileType> }) => {
-    console.log(prop.filesList)
     return (
-        <div className='test'>
+        <div className="files_list">
             {prop.filesList.length > 0 && (
-                <ul>
+                <ul style={ul}>
                     {prop.filesList.map((file) => (
-                        <li key={file.id}>{file.filename}</li>
+                        <Link style={url_color} to={`/show_file/${file.id}`}>
+                            <li key={file.id}>{file.filename}</li>
+                        </Link>
                     ))}
                 </ul>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default FilesList
+export default FilesList;

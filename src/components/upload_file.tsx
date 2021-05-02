@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { upload_title } from "./styles";
 
-const UploadFile = () => {
-    const [fileSelected, setFileSelected] = useState<File>() // also tried <string | Blob>
+const UploadFile = (prop: { resetFetched: () => void }) => {
+    const [fileSelected, setFileSelected] = useState<File>(); // also tried <string | Blob>
 
     const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         const fileList = e.target.files;
@@ -17,32 +18,29 @@ const UploadFile = () => {
             const formData = new FormData();
             formData.append("csv", fileSelected, fileSelected.name);
 
-            axios.post("http://localhost:2000/upload_file", formData, {
-                headers: {"Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-                    'enctype': 'multipart/form-data',
-                    "Content-Type": "multipart/form-data"
-                }
-            });
+            axios
+                .post("http://localhost:2000/upload_file", formData, {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Headers":
+                            "Origin, X-Requested-With, Content-Type, Accept",
+                        enctype: "multipart/form-data",
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then(prop.resetFetched);
         }
     };
 
     return (
         <div>
-            <h1>
-                CSV Upload
-            </h1>
-            <h3>
-                File Upload using React!
-            </h3>
+            <p style={upload_title}>Upload CSV</p>
             <div>
                 <input type="file" onChange={handleFileChange} />
-                <button onClick={upload}>
-                    Upload!
-                </button>
+                <button onClick={upload}>Upload!</button>
             </div>
         </div>
     );
-}
+};
 
-export default UploadFile
+export default UploadFile;
